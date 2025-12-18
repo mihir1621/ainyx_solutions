@@ -10,15 +10,19 @@ import { FloatingAppPanel } from '@/features/dashboard/FloatingAppPanel';
 import { TopRightControls } from '@/features/dashboard/TopRightControls';
 
 // Dagre layout setup is now strictly scoped
-const nodeWidth = 340; // Card width + spacing
-const nodeHeight = 200; // Card height + spacing
+const nodeWidth = 400; // Card width (320px) + spacing
+const nodeHeight = 300; // Card height (~200px) + vertical spacing
 
 const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'LR') => {
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
 
     const isHorizontal = direction === 'LR';
-    dagreGraph.setGraph({ rankdir: direction });
+    dagreGraph.setGraph({
+        rankdir: direction,
+        ranksep: 100, // Horizontal spacing between columns
+        nodesep: 80   // Vertical spacing between nodes in same rank
+    });
 
     nodes.forEach((node) => {
         dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });

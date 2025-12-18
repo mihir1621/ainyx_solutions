@@ -29,15 +29,15 @@
 
   .dark {
     /* Deep 'Midnight' Dark Theme */
-    --background: 224 71% 4%;
-    /* #020420 Very dark blue/black */
+    --background: 0 0% 0%;
+    /* Pure Black */
     --foreground: 210 20% 98%;
 
-    --card: 222 47% 11%;
-    /* #0f172a Slate 900-ish but richer */
+    --card: 0 0% 0%;
+    /* Pure Black for sleek look */
     --card-foreground: 210 20% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 0 0% 0%;
     --popover-foreground: 210 20% 98%;
 
     --primary: 263 70% 60%;

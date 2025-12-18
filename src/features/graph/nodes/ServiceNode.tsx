@@ -47,8 +47,8 @@ export function ServiceNode({ data, selected }: NodeProps<Node>) {
             <Handle type="target" position={Position.Left} className="w-3 h-3 bg-muted-foreground border-2 border-background" />
 
             <Card className={cn(
-                "w-[320px] bg-card border-border shadow-xl overflow-hidden backdrop-blur-sm",
-                selected ? "ring-2 ring-primary border-primary" : "hover:border-accent-foreground/50"
+                "w-[320px] bg-card border-border shadow-xl overflow-hidden backdrop-blur-sm transition-all duration-300",
+                selected ? "ring-2 ring-primary border-primary shadow-primary/20" : "hover:ring-1 hover:ring-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20"
             )}>
                 {/* Header */}
                 <CardHeader className="p-4 bg-muted/40 border-b border-border flex flex-row items-center justify-between space-y-0">

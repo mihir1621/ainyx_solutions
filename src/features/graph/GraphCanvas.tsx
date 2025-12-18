@@ -1,10 +1,9 @@
-import { useCallback, type Dispatch, type SetStateAction } from 'react';
+import { useCallback, type Dispatch, type SetStateAction, useEffect } from 'react';
 import {
     ReactFlow,
     Background,
-    Controls,
-    Panel,
     addEdge,
+    useReactFlow,
     type Node,
     type Edge,
     type Connection,
@@ -13,9 +12,54 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useStore } from '@/store/useStore';
-import { Button } from '@/components/ui/button';
-import { Maximize } from 'lucide-react';
 import { ServiceNode } from '@/features/graph/nodes/ServiceNode';
+import { Button } from '@/components/ui/button';
+import { Plus, Minus, Maximize } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+// Helper component to handle responsive resize
+function ResponsiveFitView() {
+    const { fitView } = useReactFlow();
+
+    useEffect(() => {
+        const handleResize = () => {
+            fitView({ padding: 0.2, minZoom: 0.05, maxZoom: 1.5, duration: 200 });
+        };
+
+        // Initial fit
+        fitView({ padding: 0.2 });
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [fitView]);
+
+    return null;
+}
+
+function CustomControls() {
+    const { zoomIn, zoomOut, fitView } = useReactFlow();
+
+    return (
+        <div className={cn(
+            "absolute z-50 flex flex-col gap-1 p-1 bg-card/80 border border-border rounded-xl shadow-xl backdrop-blur-md transition-all duration-300",
+            // Mobile: Top Right, below the header controls
+            "top-16 right-4",
+            // Desktop: Bottom Right
+            "md:top-auto md:bottom-4 md:right-4"
+        )}>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-muted" onClick={() => zoomIn({ duration: 300 })}>
+                <Plus className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-muted" onClick={() => zoomOut({ duration: 300 })}>
+                <Minus className="h-4 w-4" />
+            </Button>
+            <div className="h-[1px] bg-border mx-2" />
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-muted" onClick={() => fitView({ duration: 300, padding: 0.2 })}>
+                <Maximize className="h-4 w-4" />
+            </Button>
+        </div>
+    );
+}
 
 const nodeTypes = {
     service: ServiceNode,
@@ -95,21 +139,14 @@ export function GraphCanvas({
                 onPaneClick={onPaneClick}
                 nodeTypes={nodeTypes}
                 fitView
-                fitViewOptions={{ padding: 0.4, minZoom: 0.1, maxZoom: 1 }}
+                fitViewOptions={{ padding: 0.2, minZoom: 0.05, maxZoom: 1.5 }}
+                minZoom={0.05}
                 deleteKeyCode={["Backspace", "Delete"]}
+                className="bg-background/50"
             >
-                <Background gap={20} size={1} color="#334155" />
-                <Controls />
-                <Panel position="top-right">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => document.querySelector('.react-flow__controls-fitview')?.dispatchEvent(new MouseEvent('click', { bubbles: true }))}
-                    >
-                        <Maximize className="w-4 h-4 mr-2" />
-                        Fit View
-                    </Button>
-                </Panel>
+                <ResponsiveFitView />
+                <Background gap={24} size={1} color="#334155" className="opacity-20" />
+                <CustomControls />
             </ReactFlow>
         </div>
     );

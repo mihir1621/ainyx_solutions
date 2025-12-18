@@ -7,6 +7,16 @@ const apps = [
     { id: 'app-st-python', name: 'supertokens-python' },
     { id: 'app-st-ruby', name: 'supertokens-ruby' },
     { id: 'app-st-go', name: 'supertokens-go' },
+    { id: 'app-st-node', name: 'supertokens-node' },
+    { id: 'app-st-rust', name: 'supertokens-rust' },
+    { id: 'app-st-php', name: 'supertokens-php' },
+    { id: 'app-st-csharp', name: 'supertokens-csharp' },
+    { id: 'app-st-swift', name: 'supertokens-swift' },
+    { id: 'app-st-kotlin', name: 'supertokens-kotlin' },
+    { id: 'app-st-flutter', name: 'supertokens-flutter' },
+    { id: 'app-st-react', name: 'supertokens-react' },
+    { id: 'app-st-vue', name: 'supertokens-vue' },
+    { id: 'app-st-angular', name: 'supertokens-angular' },
 ];
 
 const graphs: Record<string, { nodes: Node[]; edges: Edge[] }> = {
